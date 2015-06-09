@@ -1,0 +1,15 @@
+-  name	  	-    original name       - link							        	- license
+
+game over 	- j1game_over_mono.wav   - http://www.freesound.org/people/jivatma07/sounds/173859/		- Creative Commons 0 License.
+
+hit	  	- arrow_damage.wav	 - http://www.freesound.org/people/braqoon/sounds/161098/		- Creative Commons 0 License.
+
+level complete	- level_complete.wav     - http://www.freesound.org/people/jivatma07/sounds/122255/     	- Creative Commons 0 License.
+
+footstep        - Footstep 01.wav        - http://www.freesound.org/people/VKProduktion/sounds/251788/		- Creative Commons 0 License.
+
+hurt          	- 188568_3330286-lq.mp3  - http://www.freesound.org/data/previews/188/188568_3330286-lq.mp3	- Creative Commons 0 License.
+
+reload		- gun switching.wav      - http://www.freesound.org/people/tara12391/sounds/238517/		- Creative Commons 0 License.
+
+step1		- Footstep on Stone 2    - http://www.freesound.org/people/Samulis/sounds/197779/		- Creative Commons 0 License.
