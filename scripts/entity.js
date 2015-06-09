@@ -31,6 +31,7 @@ Entity.prototype.updatePosition = function(pos) {
         this.image.x = this.position.x * 32;
         this.image.y = this.position.y * 32;
     }
+	game.playSound("step1");
 };
 
 Entity.prototype.hide = function() {
@@ -46,6 +47,7 @@ Entity.prototype.show = function() {
         this.updatePosition();
         this.showing = !this.showing;
     }
+	game.playSound("inventoryScreen");
 };
 
 Entity.prototype.getName = function() { return this.name; };
@@ -295,6 +297,7 @@ Player.prototype.move = function(dir) {
 
             if (item) {
                 if (item.getType() == "stairs") {
+					game.playSound("levelComplete");
                     game.makeNextLevel();
                 } else {
                     game.message("You are standing on " + item + ".");
@@ -314,11 +317,13 @@ Player.prototype.attack = function(other) {
     if (roll == 20) {
         var damage = this.stats.getMaximumDamage();
         other.applyDamage(damage);
-        game.message("You deal critical " + damage + " damage to " + other + ".");
+        game.playSound("hit");
+		game.message("You deal critical " + damage + " damage to " + other + ".");
     } else if (roll + this.stats.calculateBonus(this.stats.str)*strTimes + this.stats.level > other.getAc()) {
         var damage = this.stats.rollStrDamage();
         other.applyDamage(damage);
-        game.message("You deal " + damage + " damage to " + other + ".");
+        game.playSound("hit");
+		game.message("You deal " + damage + " damage to " + other + ".");
     } else {
         game.message("You missed trying to hit " + other + ".");
     }
@@ -343,12 +348,14 @@ Player.prototype.interact = function() {
             item = this.map.cellAt(this.getPosition()).getItem();
 
             if (item) {
+				game.playSound("openChest");
                 game.message("You opened chest. Standing on " + item + ".");
             } else {
                 game.message("You opened chest. It was empty.");
             }
         } else if (item.isPickable()) {
             if (this.getInventory().addItem(item)) {
+				game.playSound("switch");
                 game.message("You added " + item + " to inventory.");
             }
         }
@@ -477,7 +484,7 @@ Monster.prototype.attack = function(other) {
             return;
         }
         if (!game.devMode) other.applyDamage(damage);
-
+		game.playSound("hurt");
         game.message(this + " deals " + damage + " damage to you.");
     } else {
         game.message(this + " missed trying to hit you.");

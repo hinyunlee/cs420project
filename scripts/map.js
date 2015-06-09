@@ -344,7 +344,7 @@ Map.prototype.aStar = function(startPos, goalPos){
 	var start = new PathNode(null, startPos.x, startPos.y, 0);
 	var goal =  new PathNode(start, goalPos.x, goalPos.y, 0);
 
-	start.pathCost = this.gScore(start.position, goal.position);
+	start.pathCost = this.cost(start.position, goal.position);
 	heapQueue.insert(start);
 	do{
 		current = heapQueue.popHighestPriorityElement();
@@ -359,10 +359,10 @@ Map.prototype.aStar = function(startPos, goalPos){
 			return [];
 		for (var i=0;i < neighborCells.length; i++)
 		{
-			var tentative_gScore = this.gScore(start.position, current.position) + this.gScore(current.position,neighborCells[i])
-			if(!closedSet.has(neighborCells[i].toString()) || tentative_gScore < this.gScore(start.position, neighborCells[i]))
+			var tentative_cost = this.cost(start.position, current.position) + this.cost(current.position,neighborCells[i])
+			if(!closedSet.has(neighborCells[i].toString()) || tentative_cost < this.cost(start.position, neighborCells[i]))
 			{
-				var neighborNode = new PathNode(current, neighborCells[i].x, neighborCells[i].y, tentative_gScore + this.heuristic(neighborCells[i], goal.position));
+				var neighborNode = new PathNode(current, neighborCells[i].x, neighborCells[i].y, tentative_cost + this.cost(neighborCells[i], goal.position));
 				if(!heapQueue.contains(neighborNode) && !closedSet.has(neighborCells[i].toString())){
 					heapQueue.insert(neighborNode);
 				}
@@ -385,12 +385,8 @@ Map.prototype.reconstructPath= function(start, current){
 	return totalPath.reverse();
 };
 
-Map.prototype.heuristic = function(start_position, end_position) {
+Map.prototype.cost = function(start_position, end_position) {
     return Math.abs(end_position.x - start_position.x) + Math.abs(end_position.y - start_position.y);
-};
-
-Map.prototype.gScore= function(start_position, end_position){
-	return Math.abs((end_position.x - start_position.x)) + Math.abs((end_position.y - start_position.y));
 };
 
 Map.prototype.findPath = function(from, to) {
@@ -411,27 +407,3 @@ Map.prototype.findPath = function(from, to) {
 	return foundPath;
 };
 
-/*
-Map.prototype.findPath = function(from, to) {
-    var foundPath = [];
-
-    lastFrom = this.pathfindGrid[from.y][from.x];
-    lastTo = this.pathfindGrid[to.y][to.x];
-
-    this.pathfindGrid[from.y][from.x] = 1;
-    this.pathfindGrid[to.y][to.x] = 1;
-
-    var graph = new Graph(this.pathfindGrid);
-    var path = aStar.search(graph, graph.grid[from.y][from.x], graph.grid[to.y][to.x]);
-
-    path.forEach(function(each) {
-        foundPath.push(new Vector(each.y, each.x));
-    });
-
-    this.pathfindGrid[from.y][from.x] = lastFrom;
-    this.pathfindGrid[to.y][to.x] = lastTo;
-
-    foundPath.splice(0,1);
-    return foundPath;
-};
-*/

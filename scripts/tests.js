@@ -94,3 +94,23 @@ QUnit.test( "Dig random size region on a random size Map", function( assert ) {
 		}
 	}
 });
+
+QUnit.test( "A* can find the path from random start to random goal", function() {
+
+	var map = new Map(100,100);
+	var region = new Rect(new Vector(1,1), new Vector(99,99));
+	map.digRegion(region);
+	var finalPath= [];	
+	
+	for (var i=0; i<100; i++){	
+	var from = random.integerVectorRange(1,99);
+	var to = random.integerVectorRange(1,99);
+
+	equal(from.toString(), "(" + from.x + ", " + from.y + ")", "start= " + "(" + from.x + ", " + from.y + ")"),
+	equal(to.toString(), "(" + to.x + ", " + to.y + ")", "goal= " + "(" + to.x + ", " + to.y + ")"),
+	finalPath = map.aStar(from,to);
+
+	equal(finalPath[finalPath.length -1].toString(), to.toString());	
+	equal(finalPath[0].toString(), from.toString());	
+	}
+});

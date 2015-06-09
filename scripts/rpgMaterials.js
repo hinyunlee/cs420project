@@ -44,75 +44,75 @@ var monsters = {
 var equipments = {
     // Microlite20 Equipments
     twoHandedWeapons: [ // Weapon, Cost, Damage, Range
-        ["Chain, spiked", 25, 2, 4, 0],
-        ["Falchion", 75, 1, 6, 0],
-        ["Flail, heavy", 15, 1, 8, 0],
-        ["Glaive", 8, 1, 8, 0],
-        ["Greataxe", 20, 1, 10, 0],
-        ["Greatclub", 5, 1, 8, 0],
-        ["Greatsword", 50, 2, 6, 0],
-        ["Guisarme", 9, 2, 4, 0],
-        ["Guisarme", 9, 2, 4, 0],
-        ["Halberd", 10, 1, 10, 0],
-        ["Lance", 10, 1, 8, 0],
-        ["Longspear", 5, 1, 8, 0],
-        ["Quarterstaff", 0, 1, 6, 0],
-        ["Scythe", 18, 2, 4, 0],
-        ["Spear", 2, 1, 8, 20]
+        ["Chain, spiked", 25, 2, 4, 0, "/img/collection/player/head/chain.png"],
+        ["Falchion", 75, 1, 6, 0, "img/collection/player/hand1/falchion.png"],
+        ["Flail, heavy", 15, 1, 8, 0, "img/collection/item/weapon/great_flail1.png"],
+        ["Glaive", 8, 1, 8, 0, "img/collection/item/weapon/orcish_glaive.png"],
+        ["Greataxe", 20, 1, 10, 0, "img/floor.png"], // no image
+        ["Greatclub", 5, 1, 8, 0, "img/collection/item/weapon/giant_spiked_club.png"],
+        ["Greatsword", 50, 2, 6, 0, "img/collection/item/weapon/greatsword1.png"],
+        ["Guisarme", 9, 2, 4, 0, "img/floor.png"], // no image
+        ["Guisarme", 9, 2, 4, 0, "img/floor.png"], // no image
+        ["Halberd", 10, 1, 10, 0, "img/collection/player/hand1/halberd.png"],
+        ["Lance", 10, 1, 8, 0, "img/collection/player/hand1/lance2.png"],
+        ["Longspear", 5, 1, 8, 0, "img/collection/UNUSED/weapons/spear.png"],
+        ["Quarterstaff", 0, 1, 6, 0, "img/collection/player/hand1/quarterstaff1.png"],
+        ["Scythe", 18, 2, 4, 0, "img/collection/item/weapon/scythe1.png"],
+        ["Spear", 2, 1, 8, 20, "img/collection/UNUSED/weapons/spear.png"]
     ],
 
     lightWeapons: [ // Weapon, Cost, Damage, Range
-        ["Unarmed Strike", 0, 1, 3, 0],
-        ["Axe, throwing", 8, 1, 6, 10],
-        ["Dagger", 2, 1, 4, 10],
-        ["Hammer, light", 1, 1, 6, 20],
-        ["Handaxe", 6, 1, 4, 0],
-        ["Mace, light", 5, 1, 6, 0],
-        ["Pick, light", 4, 1, 4, 0],
-        ["Sap", 1, 1, 6, 0],
-        ["Sickle", 6, 1, 6, 0],
-        ["Short, sword", 10, 1, 6, 0]
+        ["Unarmed Strike", 0, 1, 3, 0, "img/floor.png"], // no image
+        ["Axe, throwing", 8, 1, 6, 10, "img/collection/player/hand1/axe.png"],
+        ["Dagger", 2, 1, 4, 10, "img/collection/item/weapon/dagger.png"],
+        ["Hammer, light", 1, 1, 6, 20, "img/collection/UNUSED/weapons/war_hammer.png"],
+        ["Handaxe", 6, 1, 4, 0, "img/collection/player/hand1/artefact/axe_trog.png"],
+        ["Mace, light", 5, 1, 6, 0, "img/collection/UNUSED/weapons/mace1.png"],
+        ["Pick, light", 4, 1, 4, 0, "img/collection/player/hand1/pick_axe.png"],
+        ["Sap", 1, 1, 6, 0, "img/floor.png"], // no image
+        ["Sickle", 6, 1, 6, 0, "img/collection/player/hand1/sickle.png"],
+        ["Short, sword", 10, 1, 6, 0, "img/collection/item/weapon/elven_short_sword.png"]
     ],
 
     oneHandedWeapons: [ // Weapon, Cost, Damage, Range
-        ["Battleaxe", 10, 1, 3, 0],
-        ["Club", 0, 1, 6, 10],
-        ["Flail", 8, 1, 4, 10],
-        ["Longsword", 15, 1, 6, 20],
-        ["Mace, heavy", 12, 1, 4, 0],
-        ["Morningstar", 8, 1, 6, 0],
-        ["Pick, heavy", 8, 1, 4, 0],
-        ["Rapier", 20, 1, 6, 0],
-        ["Scimitar", 15, 1, 6, 0],
-        ["Shortspear", 1, 1, 6, 0],
-        ["Sword, bastard", 35, 1, 6, 0],
-        ["Trident", 15, 1, 4, 0],
-        ["Waraxe, dwarven", 30, 1, 6, 0],
-        ["Warhammer", 12, 1, 6, 0],
-        ["Whip", 1, 1, 6, 0]
+        ["Battleaxe", 10, 1, 3, 0, "img/floor.png"], // no image
+        ["Club", 0, 1, 6, 10, "img/collection/item/weapon/club.png"],
+        ["Flail", 8, 1, 4, 10, "img/collection/item/weapon/flail1.png"],
+        ["Longsword", 15, 1, 6, 20, "img/collection/item/weapon/orcish_great_sword.png"],
+        ["Mace, heavy", 12, 1, 4, 0, "img/collection/UNUSED/weapons/mace3.png"],
+        ["Morningstar", 8, 1, 6, 0, "img/collection/item/weapon/morningstar2.png"],
+        ["Pick, heavy", 8, 1, 4, 0, "img/floor.png"], // no image
+        ["Rapier", 20, 1, 6, 0, "img/floor.png"], // no image
+        ["Scimitar", 15, 1, 6, 0, "img/collection/item/weapon/scimitar2.png"],
+        ["Shortspear", 1, 1, 6, 0, "img/collection/player/hand1/artefact/crystal_spear.png"],
+        ["Sword, bastard", 35, 1, 6, 0, "img/collection/UNUSED/weapons/golden_sword.png"],
+        ["Trident", 15, 1, 4, 0, "img/collection/item/weapon/trident1.png"],
+        ["Waraxe, dwarven", 30, 1, 6, 0, "img/collection/item/weapon/war_axe2.png"],
+        ["Warhammer", 12, 1, 6, 0, "img/collection/UNUSED/weapons/war_hammer.png"],
+        ["Whip", 1, 1, 6, 0, "img/collection/dc-mon/statues/overlay_whip.png"]
     ],
 
     armours: [ // Armour, Cost, Bonus
-        ["Padded", 2, 1],
-        ["Leather", 10, 2],
-        ["Studded Leather", 25, 3],
-        ["Chain Shirt", 100, 4],
-        ["Hide", 15, 3],
-        ["Scale Mail", 50, 4],
-        ["Chainmail", 150, 5],
-        ["Breastplate", 200, 5],
-        ["Splint Mail", 200, 6],
-        ["Banded Mail", 250, 6],
-        ["Half-plate", 600, 7],
-        ["Full Plate", 1500, 8]
+        ["Padded", 2, 1, "img/floor.png"], // no image
+        ["Leather", 10, 2, "img/collection/item/armour/leather_armour1.png"],
+        ["Studded Leather", 25, 3, "img/collection/UNUSED/armour/studded_leather_armor.png"],
+        ["Chain Shirt", 100, 4, "img/collection/item/armour/chain_mail3.png"],
+        ["Hide", 15, 3, "img/collection/item/armour/troll_hide.png"],
+        ["Scale Mail", 50, 4, "img/collection/player/body/scalemail2.png"],
+        ["Chainmail", 150, 5, "img/collection/player/body/chainmail3.png"],
+        ["Breastplate", 200, 5, "img/floor.png"], // no image
+        ["Splint Mail", 200, 6, "img/collection/item/armour/splint_mail1.png"],
+        ["Banded Mail", 250, 6, "img/collection/item/armour/banded_mail2.png"],
+        ["Half-plate", 600, 7, "img/collection/player/body/half_plate2.png"],
+        ["Full Plate", 1500, 8, "img/collection/player/body/plate2.png"]
     ],
 
     shields: [ // Armour, Cost, Bonus
-        ["Buckler", 2, 1],
-        ["Shield, light wooden", 10, 1],
-        ["Shidle, light steel", 25, 1],
-        ["Shield, heavy wooden", 100, 2],
-        ["Shield, heavy steel", 20, 2],
-        ["Shield, tower", 30, 4]
+        ["Buckler", 2, 1, "img/collection/item/armour/shields/buckler3.png"],
+        ["Shield, light wooden", 10, 1, "img/collection/item/armour/shields/buckler1.png"],
+        ["Shield, light steel", 25, 1, "img/collection/UNUSED/armour/shield2.png"],
+        ["Shield, heavy wooden", 100, 2, "img/collection/item/armour/shields/shield2_kite.png"],
+        ["Shield, heavy steel", 20, 2, "img/collection/item/armour/shields/large_shield2.png"],
+        ["Shield, tower", 30, 4, "img/collection/item/armour/shields/large_shield3.png"]
     ]
 };

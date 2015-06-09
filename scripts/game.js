@@ -24,10 +24,12 @@ var game = {
     informationPanel: new createjs.Shape(new createjs.Graphics().beginFill("rgba(0, 32, 255, 255)").drawRect(0, 0, 640, 55)),
     informationText: new createjs.Text(),
     helpString: "",
-
+	
     init: function() {
         if (this.stage) this.reset();
-
+		
+		this.loadSounds();
+		this.playSound("levelComplete");
         this.stage = this.stage || new createjs.Stage("mainScreen");
         this.player = new Player("Player");
         this.player.setCode("@");
@@ -62,6 +64,18 @@ var game = {
         window.onkeydown = this.onKeyPressed;
         window.setInterval(this.tick, 1000);
     },
+	
+	// Sounds
+	loadSounds: function(){
+	createjs.Sound.registerSound("sounds/panel.mp3", "inventoryScreen");
+	createjs.Sound.registerSound("sounds/openChest.mp3", "openChest");
+	createjs.Sound.registerSound("sounds/game_over.mp3", "gameOver");
+	createjs.Sound.registerSound("sounds/level_complete.mp3", "levelComplete");
+	createjs.Sound.registerSound("sounds/reload.wav", "reload");
+	createjs.Sound.registerSound("sounds/hit.mp3", "hit");
+	createjs.Sound.registerSound("sounds/hurt.mp3", "hurt");
+	createjs.Sound.registerSound("sounds/step_1.mp3", "step1");
+	},
 
     reset: function() {
         this.background.removeAllChildren();
@@ -86,7 +100,8 @@ var game = {
             });
 
             if (!this.player.isAlive()) {
-                    this.state = "game_over";
+					game.playSound("gameOver");
+					this.state = "game_over";
                     game.message("You died. Press r to restart.");
             }
         }
@@ -98,6 +113,10 @@ var game = {
 
         //this.map.debugDraw();
     },
+	
+	playSound: function(soundID) {
+		createjs.Sound.play(soundID);
+	},
 
     updateMessagePanel: function() {
         game.messagePanel.x = this.player.getPosition().x*32;
@@ -145,7 +164,9 @@ var game = {
 
     showInventory: function(show) {
         var container = game.inventory;
-
+		
+		this.playSound("inventoryScreen");
+		
         if (show) {
             this.stage.addChild(container);
 
