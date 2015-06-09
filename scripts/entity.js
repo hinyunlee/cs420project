@@ -93,9 +93,9 @@ Entity.prototype.toString = function() {
 var Stats = function(str, dex, mind) {
     // Core stats
     this.level = 1;
-    this.str = this.roll4d6RemoveLowest();
-    this.dex = this.roll4d6RemoveLowest();
-    this.mind = this.roll4d6RemoveLowest();
+    this.str = str || this.roll4d6RemoveLowest();
+    this.dex = dex || this.roll4d6RemoveLowest();
+    this.mind = mind || this.roll4d6RemoveLowest();
     this.statPoints = 0;
 
     this.encounterLevel = 0;
@@ -232,8 +232,8 @@ Character.prototype.applyDamage = function(damage) {
         //cell.setCode("%");
 
         // Randomly drop an item
-        if (random.integer(10) < 3) {
-            var item = random.item(this.map.getPlayer().getStats().level);
+        if (cell.getItem() === null && random.integer(10) < 3) {
+            var item = random.item(random.integerRange(this.map.getPlayer().getStats().level, this.map.getPlayer().getStats().level + 2));
             item.setImage(new createjs.Bitmap("img/collection/UNUSED/other/chest2_open.png"));
             item.setPosition(this.getPosition());
             this.map.add(item);
@@ -268,7 +268,7 @@ var Player = function(name) {
     Character.call(this, name);
     this.setType("player");
 
-    this.stats = new Stats(18, 18, 18);
+    this.stats = new Stats();
 
     this.inventory = new Inventory(this);
 };
@@ -287,23 +287,7 @@ Player.prototype.move = function(dir) {
             var other = this.map.cellAt(to).getEntity();
 
             if (other.getType() == "enemy") {
-                var roll = random.die(1, 20);
-
-                if (roll == 20) {
-                    var damage = this.stats.getMaximumDamage();
-                    other.applyDamage(damage);
-                    game.message("You dealt critical " + damage + " damage to " + other + ".");
-                } else if (roll + this.stats.calculateBonus(this.stats.str) + this.stats.level > other.getAc()) {
-                    var damage = this.stats.rollStrDamage();
-                    other.applyDamage(damage);
-                    game.message("You dealt " + damage + " damage to " + other + ".");
-                } else {
-                    game.message("You missed trying to hit " + other + ".");
-                }
-
-                if (!other.isAlive()) {
-                    this.stats.addEncounterLevel(other.getEncounterLevel());
-                }
+                this.attack(other);
             }
         } else {
             this.setPosition(to);
@@ -318,7 +302,31 @@ Player.prototype.move = function(dir) {
             }
         }
     }
-}
+};
+
+Player.prototype.attack = function(other) {
+    var roll = random.die(1, 20);
+
+    var strTimes = 1;
+
+    if (this.inventory.rightHand && this.inventory.rightHand.isTwoHanded()) strTimes = 2;
+
+    if (roll == 20) {
+        var damage = this.stats.getMaximumDamage();
+        other.applyDamage(damage);
+        game.message("You deal critical " + damage + " damage to " + other + ".");
+    } else if (roll + this.stats.calculateBonus(this.stats.str)*strTimes + this.stats.level > other.getAc()) {
+        var damage = this.stats.rollStrDamage();
+        other.applyDamage(damage);
+        game.message("You deal " + damage + " damage to " + other + ".");
+    } else {
+        game.message("You missed trying to hit " + other + ".");
+    }
+
+    if (!other.isAlive()) {
+        this.stats.addEncounterLevel(other.getEncounterLevel());
+    }
+};
 
 // Interact with an item the player is standing on
 Player.prototype.interact = function() {
@@ -372,12 +380,16 @@ var Monster = function(name) {
     this.hitDiceSides = 3;
     this.hitBonus = 0;
 
+    this.attackBonus = 0;
+
     this.ac = 0;
 
     this.damageDiceAmount = 1;
     this.damageDiceSides = 3;
 
     this.damageBonus = 0;
+
+    this.turnsFrozen = 0;
 };
 
 Monster.prototype = Object.create(Character.prototype);
@@ -387,18 +399,24 @@ Monster.prototype.parseData = function(data) {
     this.setName(data[0]);
     this.hitDiceAmount = data[1];
     this.hitDiceSides = data[2];
-    this.hitBonus = data[3]
-    this.maxHp = data[4];
+    this.hitBonus = data[3];
+    this.maxHp = random.die(this.hitDiceAmount, this.hitDiceSides) + this.hitBonus;
     this.hp = this.maxHp;
     this.ac = data[5];
-    this.damageDiceAmount = data[6];
-    this.damageDiceSides = data[7];
-    this.damageBonus = data[8];
-    this.setImage(new createjs.Bitmap(data[9]))
+    this.attackBonus = data[6]
+    this.damageDiceAmount = data[7];
+    this.damageDiceSides = data[8];
+    this.damageBonus = data[9];
+    this.setImage(new createjs.Bitmap(data[10]))
 };
 
 Monster.prototype.updateAi = function() {
     if (this.map.getPlayer() === null || !this.map.getPlayer().isAlive()) return;
+
+    if (this.turnsFrozen > 0) {
+        --this.turnsFrozen;
+        return;
+    }
 
     // Check if player is adjacent
     var dir = this.getPlayerAdjacentDirection();
@@ -443,18 +461,26 @@ Monster.prototype.move = function(dir) {
             var other = this.map.cellAt(to).getEntity();
 
             if (other.getType() == "player") {
-                if (random.die(this.hitDiceAmount, this.hitDiceSides) + this.hitBonus > other.getAc()) {
-                    var damage = random.die(this.damageDiceAmount, this.damageDiceSides) + this.damageBonus;
-                    if (!game.devMode) other.applyDamage(damage);
-
-                    game.message(this + " dealt " + damage + " damage to you.");
-                } else {
-                        game.message(this + " missed trying to hit you.");
-                }
+                this.attack(other);
             }
         } else {
             this.setPosition(to);
         }
+    }
+};
+
+Monster.prototype.attack = function(other) {
+    if (random.die(1, 20) + this.attackBonus > other.getAc()) {
+        var damage = random.die(this.damageDiceAmount, this.damageDiceSides) + this.damageBonus;
+        if (damage < 1) {
+            game.message(this + " hits you but do no damage.");
+            return;
+        }
+        if (!game.devMode) other.applyDamage(damage);
+
+        game.message(this + " deals " + damage + " damage to you.");
+    } else {
+        game.message(this + " missed trying to hit you.");
     }
 };
 
@@ -508,6 +534,10 @@ Monster.prototype.getEncounterLevel = function() {
     return this.hitDiceAmount;
 };
 
+Monster.prototype.freezeForTurns = function(turns) {
+    this.turnsFrozen += turns;
+};
+
 
 
 // class Chest
@@ -522,7 +552,7 @@ Chest.prototype = Object.create(Entity.prototype);
 Chest.prototype.constructor = Chest;
 
 Chest.prototype.open = function() {
-    var item = random.item(this.map.getPlayer().getStats().level);
+    var item = random.item(random.integerRange(this.map.getPlayer().getStats().level, this.map.getPlayer().getStats().level + 2));
     item.setImage(new createjs.Bitmap("img/collection/UNUSED/other/chest2_open.png"));
     var map = this.map;
     map.remove(this);

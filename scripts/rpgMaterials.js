@@ -3,38 +3,39 @@
 var monsters = {
     // Microlite20 Monsters
     list: [ // name, hitDiceAmount, hitDiceSides, hitBonus, hp, ac, damageDiceAmount, damageDiceSides, damageBonus, imagePath
-        ["Animal (small)", 1, 8, 2, 6, 15, 1, 2, -1, "img/collection/dc-mon/animals/giant_newt.png"],
-        ["Ankheg", 3, 10, 12, 28, 18, 2, 6, 7, "img/collection/dc-mon/animals/giant_scorpion.png"],
-        ["Bugbear", 3, 8, 3, 16, 17, 1, 8, 2, "img/collection/UNUSED/monsters/spriggan_rider.png"],
-        ["Choker", 3, 8, 3, 16, 17, 1, 3, 3, "img/collection/dc-mon/unique/ilsuiw_water.png"],
-        ["Deinonychous (Raptor)", 4, 8, 16, 34, 16, 2, 6, 4, "img/collection/UNUSED/monsters/holy_dragon.png"],
-        ["Dire Rat", 1, 8, 1, 5, 15, 1, 4, 0, "img/collection/dc-mon/animals/rat.png"],
-        ["Dwarf", 1, 8, 2, 6, 16, 1, 10, 1, "img/collection/dc-mon/dwarf.png"],
-        ["Earth Elemental (large)", 8, 8, 32, 68, 18, 2, 8, 7, "img/collection/dc-mon/nonliving/earth_elemental.png"],
-        ["Elf", 1, 8, 0, 4, 15, 1, 8, 1, "img/collection/dc-mon/elf.png"],
-        ["Gargoyle", 4, 8, 19, 37, 16, 1, 4, 2, "img/collection/dc-mon/nonliving/gargoyle.png"],
-        ["Goblin", 1, 8, 1, 5, 15, 1, 6, 0, "img/collection/dc-mon/goblin.png"],
-        ["Griffon", 7, 10, 21, 59, 17, 2, 6, 4, "img/collection/dc-mon/griffon.png"],
-        ["Halfling", 1, 8, 1, 5, 16, 1, 6, 0, "img/collection/dc-mon/halfling.png"],
-        ["Hellhound", 4, 8, 4, 22, 16, 1, 8, 1, "img/collection/dc-mon/demons/hellion.png" ],
-        ["Hill Giant", 12, 8, 48, 102, 20, 2, 8, 10, "img/collection/dc-mon/hill_giant.png"],
-        ["Hobgoblin", 1, 8, 2, 6, 15, 1, 8, 1, "img/collection/dc-mon/hobgoblin.png"],
-        ["Human Commoner", 1, 8, 1, 5, 12, 1, 6, 1, "img/collection/UNUSED/monsters/spriggan_berserker.png"],
-        ["Insect (small)", 1, 8, 0, 4, 14, 1, 4, -2, "img/collection/dc-mon/animals/giant_beetle.png"],
-        ["Kobold", 1, 8, 0, 4, 15, 1, 6, -1, "img/collection/dc-mon/kobold.png"],
-        ["Ogre", 4, 8, 11, 29, 16, 2, 8, 7, "img/collection/dc-mon/ogre.png"],
-        ["Orc", 1, 8, 1, 5, 13, 2, 4, 4, "img/collection/dc-mon/orc.png"],
-        ["Owlbear", 5, 10, 25, 52, 15, 1, 6, 5, "img/collection/dc-mon/animals/grizzly_bear.png"],
-        ["Rust Monster", 5, 8, 5, 27, 18, 1, 3, 0, "img/collection/dc-mon/demons/cigotuvis_monster.png"], // No damage
-        ["Shadow", 3, 12, 0, 19, 13, 1, 6, 0, "img/collection/dc-mon/demons/shadow_demon.png"], // (1d6 Str) damage
-        ["Skeleton Warrior", 1, 12, 0, 6, 15, 1, 6, 1, "img/collection/dc-mon/undead/skeletons/skeleton_humanoid_large.png"],
-        ["Stirge", 1, 10, 0, 5, 16, 1, 3, 0, "img/collection/player/transform/bat_form.png"], // No damage
-        ["Stone Golem", 14, 10, 30, 107, 26, 2, 10, 9, "img/collection/dc-mon/nonliving/stone_golem.png"],
-        ["Troll", 6, 8, 36, 63, 16, 1, 4, 2, "img/collection/dc-mon/iron_troll.png"],
-        ["Werewolf (hybrid form)", 3, 8, 7, 20, 16, 1, 4, 2, "img/collection/dc-mon/animals/wolf.png"],
-        ["Wight", 4, 12, 0, 26, 15, 1, 4, 1, "img/collection/dc-mon/undead/wight.png"],
-        ["Wyvern", 7, 12, 14, 59, 18, 1, 6, 4, "img/collection/dc-mon/wyvern.png"],
-        ["Zombie", 2, 12, 3, 16, 11, 1, 6, 1, "img/collection/UNUSED/monsters/zombie_small.png"]
+        ["Animal (small)", 1, 8, 2, 6, 15, 4, 1, 2, -1, "img/collection/dc-mon/animals/giant_newt.png"],
+        ["Ankheg", 3, 10, 12, 28, 18, 7, 2, 6, 7, "img/collection/dc-mon/animals/giant_scorpion.png"],
+        ["Bugbear", 3, 8, 3, 16, 17, 5, 1, 8, 2, "img/collection/UNUSED/monsters/spriggan_rider.png"],
+        ["Choker", 3, 8, 3, 16, 17, 6, 1, 3, 3, "img/collection/dc-mon/unique/ilsuiw_water.png"],
+        ["Deinonychous (Raptor)", 4, 8, 16, 34, 16, 6, 2, 6, 4, "img/collection/UNUSED/monsters/holy_dragon.png"],
+        ["Dire Rat", 1, 8, 1, 5, 15, 4, 1, 4, 0, "img/collection/dc-mon/animals/rat.png"],
+        ["Dwarf", 1, 8, 2, 6, 16, 3, 1, 10, 1, "img/collection/dc-mon/dwarf.png"],
+        ["Earth Elemental (large)", 8, 8, 32, 68, 18, 12, 2, 8, 7, "img/collection/dc-mon/nonliving/earth_elemental.png"],
+        ["Elf", 1, 8, 0, 4, 15, 2, 1, 8, 1, "img/collection/dc-mon/elf.png"],
+        ["Gargoyle", 4, 8, 19, 37, 16, 6, 1, 4, 2, "img/collection/dc-mon/nonliving/gargoyle.png"],
+        ["Goblin", 1, 8, 1, 5, 15, 2, 1, 6, 0, "img/collection/dc-mon/goblin.png"],
+        ["Griffon", 7, 10, 21, 59, 17, 11, 2, 6, 4, "img/collection/dc-mon/griffon.png"],
+        ["Halfling", 1, 8, 1, 5, 16, 3, 1, 6, 0, "img/collection/dc-mon/halfling.png"],
+        ["Hellhound", 4, 8, 4, 22, 16, 5, 1, 8, 1, "img/collection/dc-mon/demons/hellion.png" ],
+        ["Hill Giant", 12, 8, 48, 102, 20, 16, 2, 8, 10, "img/collection/dc-mon/hill_giant.png"],
+        ["Hobgoblin", 1, 8, 2, 6, 15, 2, 1, 8, 1, "img/collection/dc-mon/hobgoblin.png"],
+        ["Human Commoner", 1, 8, 1, 5, 12, 1, 1, 6, 1, "img/collection/UNUSED/monsters/spriggan_berserker.png"],
+        ["Insect (small)", 1, 8, 0, 4, 14, 4, 1, 4, -2, "img/collection/dc-mon/animals/giant_beetle.png"],
+        ["Kobold", 1, 8, 0, 4, 15, 1, 1, 6, -1, "img/collection/dc-mon/kobold.png"],
+        ["Ogre", 4, 8, 11, 29, 16, 8, 2, 8, 7, "img/collection/dc-mon/ogre.png"],
+        ["Orc", 1, 8, 1, 5, 13, 4, 2, 4, 4, "img/collection/dc-mon/orc.png"],
+        ["Owlbear", 5, 10, 25, 52, 15, 9, 1, 6, 5, "img/collection/dc-mon/animals/grizzly_bear.png"],
+        ["Rust Monster", 5, 8, 5, 27, 18, 3, 1, 3, 0, "img/collection/dc-mon/demons/cigotuvis_monster.png"], // No damage
+        ["Shadow", 3, 12, 0, 19, 13, 3, 1, 6, 0, "img/collection/dc-mon/demons/shadow_demon.png"], // (1d6 Str) damage
+        ["Skeleton Warrior", 1, 12, 0, 6, 15, 1, 1, 6, 1, "img/collection/dc-mon/undead/skeletons/skeleton_humanoid_large.png"],
+        ["Stirge", 1, 10, 0, 5, 16, 7, 1, 3, 0, "img/collection/player/transform/bat_form.png"], // No damage
+        ["Stone Golem", 14, 10, 30, 107, 26, 18, 2, 10, 9, "img/collection/dc-mon/nonliving/stone_golem.png"],
+        ["Troll", 6, 8, 36, 63, 16, 9, 1, 4, 2, "img/collection/dc-mon/iron_troll.png"],
+        ["Werewolf (hybrid form)", 3, 8, 7, 20, 16, 4, 1, 4, 2, "img/collection/dc-mon/animals/wolf.png"],
+        ["Wight", 4, 12, 0, 26, 15, 3, 1, 4, 1, "img/collection/dc-mon/undead/wight.png"],
+        ["Wolf", 2, 8, 4, 13, 14, 3, 1, 6, 1, "img/collection/dc-mon/animals/wolf.png"],
+        ["Wyvern", 7, 12, 14, 59, 18, 10, 1, 6, 4, "img/collection/dc-mon/wyvern.png"],
+        ["Zombie", 2, 12, 3, 16, 11, 2, 1, 6, 1, "img/collection/UNUSED/monsters/zombie_small.png"]
     ]
 };
 

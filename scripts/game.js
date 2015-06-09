@@ -20,9 +20,10 @@ var game = {
     // Lower panel
     messagePanel: new createjs.Shape(new createjs.Graphics().beginFill("rgba(0, 32, 255, 255)").drawRect(0, 0, 640, 55)),
     messageText: new createjs.Text(),
+    lastFiveMessages: [],
     informationPanel: new createjs.Shape(new createjs.Graphics().beginFill("rgba(0, 32, 255, 255)").drawRect(0, 0, 640, 55)),
     informationText: new createjs.Text(),
-    lastFiveMessages: [],
+    helpString: "",
 
     init: function() {
         if (this.stage) this.reset();
@@ -86,6 +87,7 @@ var game = {
 
             if (!this.player.isAlive()) {
                     this.state = "game_over";
+                    game.message("You died. Press r to restart.");
             }
         }
 
@@ -113,11 +115,12 @@ var game = {
     },
 
     updateInformationPanel: function() {
+        game.updateHelpText();
         game.informationPanel.x = this.player.getPosition().x*32 - 640;
         game.informationPanel.y = this.player.getPosition().y*32 + 306;
 
-        game.informationText.text = "";
-        game.informationText.text = "HP: " + this.player.getHp() + "/" + this.player.getStats().maxHp;
+        game.informationText.text = "Level: " + this.player.getStats().level + "\nHP: " + this.player.getHp() + "/" + this.player.getStats().maxHp + "\n";
+        game.informationText.text += this.helpString;
 
         game.informationText.x = this.player.getPosition().x*32 - 635;
         game.informationText.y = this.player.getPosition().y*32+ 306;
@@ -217,32 +220,32 @@ var game = {
     showCharacterSheet: function(show) {
         var container = game.characterSheet;
 
-    if (show) {
-        this.stage.addChild(container);
+        if (show) {
+            this.stage.addChild(container);
 
-        var panel = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0, 32, 255, 255)").drawRect(0, 0, 640, 480));
-        //new createjs.Bitmap("img/panel.png");
-        var panelPos = new Vector(640, 480);
+            var panel = new createjs.Shape(new createjs.Graphics().beginFill("rgba(0, 32, 255, 255)").drawRect(0, 0, 640, 480));
+            //new createjs.Bitmap("img/panel.png");
+            var panelPos = new Vector(640, 480);
 
-        var t = new createjs.Text();
-        t.font = "10px Arial";
-        t.color = "#ffffff";
-        t.text = "[Character]\n\n";
-        t.text += this.player.getStats().toString();
+            var t = new createjs.Text();
+            t.font = "10px Arial";
+            t.color = "#ffffff";
+            t.text = "[Character]\n\n";
+            t.text += this.player.getStats().toString();
 
-        // add panel
-        panel.x = this.map.getPlayer().getPosition().x*32 - panelPos.x/2;
-        panel.y = this.map.getPlayer().getPosition().y*32 - panelPos.y/2;
-        container.addChild(panel);
+            // add panel
+            panel.x = this.map.getPlayer().getPosition().x*32 - panelPos.x/2;
+            panel.y = this.map.getPlayer().getPosition().y*32 - panelPos.y/2;
+            container.addChild(panel);
 
-        // add text
-        var textBounds = t.getBounds();
+            // add text
+            var textBounds = t.getBounds();
 
-        t.x = panel.x + textBounds.width/2;
-        t.y = panel.y + textBounds.height/2;
-        container.addChild(t);
+            t.x = panel.x + textBounds.width/2;
+            t.y = panel.y + textBounds.height/2;
+            container.addChild(t);
 
-        this.stage.update();
+            this.stage.update();
         } else {
             // remove the character screen
             this.characterSheet.removeAllChildren();
@@ -271,7 +274,8 @@ var game = {
                 game.state = "character_sheet";
                 game.showCharacterSheet(true);
             } else if (code == 90) { // z: dev mode
-                    game.devMode = !game.devMode;
+                game.devMode = !game.devMode;
+                return;
             } else {
                 return;
             }
@@ -301,15 +305,19 @@ var game = {
             }
 
             if (game.state == "inventory") {
-                game.showInventory(true);
+                game.showInventory(false);
+                if (game.player.isAlive()) game.showInventory(true);
+                else game.state = "game_over";
             }
         } else if (game.state == "inventory_drop") {
             if (code >= 49 && code <= 57) { // 1 to 9
                 game.player.getInventory().dropItem(code - 49);
+                game.state = "inventory";
             } else if (code == 48) { // 0
                 game.player.getInventory().dropItem(9);
+                game.state = "inventory";
             } else if (code == 68) { // d: drop
-                game.state == "inventory"
+                game.state = "inventory";
             } else if (code == 67) { // c: character sheet
                 game.state = "character_sheet";
                 game.showInventory(false);
@@ -322,7 +330,8 @@ var game = {
                 return;
             }
 
-            if (game.state == "inventory_drop") {
+            if (game.state == "inventory") {
+                game.showInventory(false);
                 game.showInventory(true);
             }
         } else if (game.state == "character_sheet") {
@@ -341,6 +350,21 @@ var game = {
                 game.init();
             }
         }
+
         game.update();
+    },
+
+    updateHelpText: function() {
+        if (game.state == "game" || game.state == "init") {
+            this.helpString = "Commands: w, a, s, d keys to move up, left, down, right. e key to interact.\ni key to open inventory. c key to open character sheet.";
+        } else if (game.state == "inventory") {
+            this.helpString = "Commands: Select item to use or equip (1 ~ 0 keys).\n r, l, a keys to unequip right hand, left hand and armor.";
+        } else if (game.state == "inventory_drop") {
+            this.helpString = "Commands: Select item to drop (1 ~ 0 keys).";
+        } else if (game.state == "character_sheet") {
+            this.helpString = "Commands:i key to open inventory.";
+        } else if (game.state == "game_over") {
+            this.helpString = "Commands:r key to restart.";
+        }
     }
 };

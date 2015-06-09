@@ -29,8 +29,8 @@ var random = {
     },
 
     map: function(level) {
-        var width = 64;
-        var height = 64;
+        var width = random.integerRange(64, 128);
+        var height = random.integerRange(64, 128);
         var iterations = 256;
         var center = new Vector(Math.floor(width/2), Math.floor(height/2));
 
@@ -52,9 +52,9 @@ var random = {
             var wallLoc = this.wall(map);
 
             // Decide a feature
-            switch(this.integer(5)) {
+            switch(this.integer(3)) {
                 case 0: // Corridor
-                    var corridor = this.corridor();
+                    var corridor = this.corridor(1, 16);
 
                     if (map.regionUnwalkable(corridor.expanded(1).translated(wallLoc))) {
                         map.dig(wallLoc);
@@ -63,8 +63,6 @@ var random = {
                     break;
                 case 1: // Room
                 case 2:
-                case 3:
-                case 4:
                     var smallRoom = this.room(2, 8);
                     var smallRoomBounds = smallRoom.expanded(1);
                     var smallRoomEdge = this.edge(smallRoomBounds, 1);
@@ -81,6 +79,7 @@ var random = {
         }
 
         // Add the player
+        if (game.map) game.map.remove(game.player);
         game.player.setPosition(center);
         map.add(game.player);
 
@@ -111,14 +110,15 @@ var random = {
 */
             var monsterLevel = 0;
 
-            if (random.integer(10) < 7) {
+            if (random.integer(100) < 66) {
                 monsterLevel = Math.floor(game.player.getStats().level/2) + 1;
-            } else if (random.integer(10) < 7) {
+            } else if (random.integer(100) < 66) {
                 monsterLevel = Math.floor(game.player.getStats().level/2) + 2;
             } else {
                 monsterLevel = Math.floor(game.player.getStats().level/2) + 3;
             }
-            var monster = random.monster(Math.floor(game.player.getStats().level/2) + 2);
+
+            var monster = random.monster(monsterLevel);
             monster.setPosition(floorPos);
             map.add(monster);
         }
@@ -180,22 +180,22 @@ var random = {
         return monster;
     },
 
-    corridor: function() {
+    corridor: function(min, max) {
         var direction = this.integer(4);
 
         // Check if there is room to build feature
         switch(direction) {
             case 0: // N
-                return new Rect(new Vector(0, -1), new Vector(0, -this.integerRange(1, 8)))
+                return new Rect(new Vector(0, -1), new Vector(0, -this.integerRange(min, max)))
                 break;
             case 1: // S
-                return new Rect(new Vector(0, 1), new Vector(0, this.integerRange(1, 8)))
+                return new Rect(new Vector(0, 1), new Vector(0, this.integerRange(min, max)))
                 break;
             case 2: // E
-                return new Rect(new Vector(1, 0), new Vector(this.integerRange(1, 8), 0))
+                return new Rect(new Vector(1, 0), new Vector(this.integerRange(min, max), 0))
                 break;
             case 3: // W
-                return new Rect(new Vector(-1, 0), new Vector(-this.integerRange(1, 8), 0))
+                return new Rect(new Vector(-1, 0), new Vector(-this.integerRange(min, max), 0))
                 break;
             default:
                 break;
@@ -285,7 +285,7 @@ var random = {
     },
 
     item: function(cost) {
-        if (random.integer(6) < 4) {
+        if (random.integer(100) < 66) {
             return this.consumable(cost);
         } else {
             return this.equipment(cost*10);
@@ -436,14 +436,16 @@ var random = {
         var type = "";
         var func = null;
 
-        switch(random.integer(3)) {
+        switch(random.integer(6)) {
             case 0:
-                switch (random.integer(3)) {
+            case 1:
+            case 2:
+                switch (random.integer(5)) {
                     case 0:
                         type = "Small healing potion";
 
                         func = function(user) {
-                            user.addHp(5);
+                            user.addHp(10);
                             game.message("You healed yourself for " + 5 + " points.");
                         };
                         break;
@@ -452,7 +454,7 @@ var random = {
                         type = "Healing potion";
 
                         func = function(user) {
-                            user.addHp(10);
+                            user.addHp(25);
                             game.message("You healed yourself for " + 10 + " points.");
                         };
                         break;
@@ -460,56 +462,90 @@ var random = {
                         type = "Large healing potion";
 
                         func = function(user) {
-                            user.addHp(25);
+                            user.addHp(50);
                             game.message("You healed yourself for " + 25 + " points.");
+                        };
+                        break;
+                    case 3:
+                    case 4:
+                        type = "Food";
+
+                        func = function(user) {
+                            user.addHp(5);
+                            game.message("You healed yourself for " + 1 + " points.");
                         };
                         break;
                     default:
                         break
                 }
                 break;
-            case 1:
-/*
-                rating = random.integerRange(level, level + 2);
-
-                switch(random.integer(4)) {
-                    case 0:
-                        rating *= 10;
-                        type = "Book of health";
-                        func = function(user) {
-                            user.maxHp += rating;
-                        };
-                        break;
-                    case 1:
-                        type = "Book of power";
-                        func = function(user) {
-                            user.power += rating;
-                        };
-                        break;
-                    case 2:
-                        type = "Book of hitting";
-                        func = function(user) {
-                            user.hit += rating;
-                        };
-                        break;
-                    case 3:
-                        type = "Book of defense";
-                        func = function(user) {
-                            user.defense += rating;
-                        };
-                        break;
-                    default:
-                        break;
-                }
-                break;
-*/
-            case 2:
-                type = "Food";
+            case 3:
+                type = "Scroll of teleport";
 
                 func = function(user) {
-                    user.addHp(1);
-                    game.message("You healed yourself for " + 1 + " points.");
+                    if (random.integer(100) < 66) {
+                        user.setPosition(random.floor(user.getMap()));
+                        game.message("You teleported to a random location.");
+                    } else {
+                        game.makeNextLevel();
+                        game.message("You teleported to the next level.");
+                    }
                 };
+                break;
+            case 4:
+                type = "Bomb";
+
+                func = function(user) {
+                    var enemies = game.map.getEnemies();
+                    var damage = random.die(3, 6);
+
+                    game.message("You exploded the area around you dealing " + damage + " damage to enemies and yourself.");
+
+                    enemies.forEach(function(each) {
+                        if (user.getPosition().subtract(each.getPosition()).magnitude() < 4) {
+                            each.applyDamage(damage);
+                            if (!each.isAlive()) user.getStats().addEncounterLevel(each.getEncounterLevel());
+                        }
+                    });
+
+                    user.applyDamage(damage);
+                };
+                break;
+            case 5:
+                type = "Scroll of destruction";
+
+                func = function(user) {
+                    var enemies = game.map.getEnemies();
+                    var damage = random.die(1, 10);
+
+                    game.message("You cast destruction spell dealing " + damage + " damage to enemies around you.");
+
+                    enemies.forEach(function(each) {
+                        if (user.getPosition().subtract(each.getPosition()).magnitude() < 9) {
+                            each.applyDamage(damage);
+                            if (!each.isAlive()) user.getStats().addEncounterLevel(each.getEncounterLevel());
+                        }
+                    });
+
+
+                };
+                break;
+            case 6:
+                type = "Scroll of paralysis";
+
+                func = function(user) {
+                    var turns = random.integerRange(1, 6);
+                    enemies.forEach(function(each) {
+                        if (user.getPosition().subtract(each.getPosition()).magnitude() < 9) {
+                            each.freezeForTurns(turns);
+                        }
+                    });
+
+                    game.message("You cast paralysis spell freezing enemies around you for " + turns + " turns.");
+                };
+                break;
+            default:
+                return null;
                 break;
         }
 
