@@ -1,7 +1,8 @@
 RPG Contents are from Microlite20 which is licensed under Open Game License Version 1.0a (refer to "Microlite20 License - Open Game License.txt")
 
 Images:
-Refer to /img/collection/utility
+  License: See img/collection/LICENSE.txt
+  Link: https://opengameart.org/content/dungeon-crawl-32x32-tiles
 
 Sounds:
 
